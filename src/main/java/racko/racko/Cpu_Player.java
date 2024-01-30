@@ -20,8 +20,6 @@ public class Cpu_Player extends Player{
     @Override
     public boolean takeTurn(Stack discard, Stack drawPile,Player player){
         int card = (int) discard.peek();
-        int drawPileLength = drawPile.size() % 5;
-        boolean takeDiscard;
         
         System.out.println( "Before turn:\n" + player.toString());//temp
         
