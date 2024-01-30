@@ -14,16 +14,16 @@ import java.util.Stack;
  */
 public class Player {
     String player = "CPU";
+    int numOfPlayers = 2;
     int[] rack = new int[10];
     int currentCard;
     int score = 0;//The players score
     boolean isScoreWinner = false;//Won the over all game because they scored 500 points
     boolean isWinner = false; 
     Scanner scanner = new Scanner(System.in);
-
-    public Player(int cpuNum) {
-    this.player = this.player + cpuNum;
     
+    public Player(int cpuNum) {
+        this.player = this.player + cpuNum;
     }
     
     public Player(String player) {
@@ -33,7 +33,6 @@ public class Player {
     public Player(){
         
     }
-    
     public boolean takeTurn(Stack discard, Stack drawPile,Player player){
         boolean turnFinished = false;
         while(!turnFinished){
@@ -311,6 +310,16 @@ public class Player {
         this.rack = rack;
     }
 
+    public int getNumOfPlayers() {
+        return numOfPlayers;
+    }
+
+    public void setNumOfPlayers(int[] numOfPlayers) {
+        this.numOfPlayers = numOfPlayers.length;
+    }
+
+    
+    
     public String toString(String endGame) {//Display the rack in an easier to read format for the end of a game
         return player + "'s rack: " + "\n10: " + rack[9] + "\n9 : " + rack[8] + "\n8 : " + rack[7] + "\n7 : " + rack[6] + "\n6 : " + rack[5] + "\n5 : " 
                 + rack[4] + "\n4 : " + rack[3] + "\n3 : " + rack[2] + "\n2 : " + rack[1] + "\n1 : " + rack[0];
