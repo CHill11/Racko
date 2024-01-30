@@ -7,15 +7,18 @@ package racko.racko;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.Stack;
+
 /**
  *
- * @author paper
+ * @author Chris Hill
  */
 public class Player {
     String player = "CPU";
     int[] rack = new int[10];
     int currentCard;
-    boolean isWinner = false;
+    int score = 0;//The players score
+    boolean isScoreWinner = false;//Won the over all game because they scored 500 points
+    boolean isWinner = false; 
     Scanner scanner = new Scanner(System.in);
 
     public Player(int cpuNum) {
@@ -36,134 +39,159 @@ public class Player {
         while(!turnFinished){
             System.out.println(player);//Display the rack
             System.out.println("Here is the discard pile card " + discard.peek());
-            System.out.print("If you want the discard pile card press y or press n to pick up a new card from the draw pile.");
+            System.out.println("If you want the discard pile card press y or press n to pick up a new card from the draw pile. Type score for your score. \nCards in the draw pile: " + drawPile.size());
             String pickup = scanner.next().toLowerCase();
-            switch(pickup.charAt(0)){
-                case 'y':
-                    player.drawCardFromDiscard(discard, player);//If player decided to pick up from the discard pile 
+            switch(pickup){
+                case "y":
+                    player.drawCardFromDiscard(discard, player, drawPile);//If player decided to pick up from the discard pile 
                     turnFinished = true;
                     break;
-                case 'n':
-                    player.drawCardFromDeck(drawPile, discard, player);//If player decided to pick up from the draw pile
+                case "n":
+                    player.drawCardFromDeck(drawPile, discard, player, false);//If player decided to pick up from the draw pile
                     turnFinished = true;
                     break;
+                case "score": System.out.println("Here is your score " + player.getPlayer() + ":" + player.getScore());//Player want to know their score
+                    System.out.print("Press enter to continue...");
+                    try{
+                        System.in.read();
+                    }catch(IOException e){
+                        System.out.print(e);
+                    }
+                    return player.takeTurn(discard, drawPile, player);
                 default:
                     System.out.println("You enterd an invalid entery.");//If player enterd a bad input
             }
-            
         }
         return player.isWinner(player);//See if the player has won
     }
     
-    public void drawCardFromDeck(Stack<Integer> deck, Stack<Integer> discard, Player player){//Get the top card from the deck
-        if(!deck.isEmpty()){
-            currentCard = deck.pop();
-            System.out.println("Here is your picked up card: " + currentCard);
-            System.out.println("Enter the slot on the rack that you want to exchange or 0 to discard it.");
-            //System.out.println(player.toString());//Display the rack
-            int temp = scanner.nextInt();
-
-            switch(temp){//Put the card into the proper slot int the rack
-                case 0: discard.push(currentCard);
-                        break;
-                case 1: discard.push(rack[0]);
-                        rack[0] = currentCard;
-                        break;
-                case 2: discard.push(rack[1]);
-                        rack[1] = currentCard;
-                        break;
-                case 3: discard.push(rack[2]);
-                        rack[2] = currentCard;
-                        break;
-                case 4: discard.push(rack[3]);
-                        rack[3] = currentCard;
-                        break;
-                case 5: discard.push(rack[4]);
-                        rack[4] = currentCard;
-                        break;
-                case 6: discard.push(rack[5]);
-                        rack[5] = currentCard;
-                        break;
-                case 7: discard.push(rack[6]);
-                        rack[6] = currentCard;
-                        break;
-                case 8: discard.push(rack[7]);
-                        rack[7] = currentCard;
-                        break;
-                case 9: discard.push(rack[8]);
-                        rack[8] = currentCard;
-                        break;
-                case 10: discard.push(rack[9]);
-                        rack[9] = currentCard;
-                        break;
-                default: System.out.print("Input invalid");
-                        drawCardFromDeck(deck, discard, player);
+    public void drawCardFromDeck(Stack<Integer> drawPile, Stack<Integer> discard, Player player,boolean cameFromDiscard){//Get the top card from the deck
+        boolean drawPileEmpty = drawPile.isEmpty();
+        if(!drawPileEmpty){
+            boolean cont = true;
+            currentCard = drawPile.pop();
+                     
+            while(cont){
+                cont= false;
+                System.out.println("Here is your picked up card: " + currentCard);
+                System.out.println("Enter the slot on the rack that you want to exchange or 0 to discard it.");
+                String temp = scanner.next(); 
+            
+                switch(temp){//Put the card into the proper slot int the rack
+                    case "0": discard.push(currentCard);
+                            break;
+                    case "1": discard.push(rack[0]);
+                            rack[0] = currentCard;
+                            break;
+                    case "2": discard.push(rack[1]);
+                            rack[1] = currentCard;
+                            break;
+                    case "3": discard.push(rack[2]);
+                            rack[2] = currentCard;
+                            break;
+                    case "4": discard.push(rack[3]);
+                            rack[3] = currentCard;
+                            break;
+                    case "5": discard.push(rack[4]);
+                            rack[4] = currentCard;
+                            break;
+                    case "6": discard.push(rack[5]);
+                            rack[5] = currentCard;
+                            break;
+                    case "7": discard.push(rack[6]);
+                            rack[6] = currentCard;
+                            break;
+                    case "8": discard.push(rack[7]);
+                            rack[7] = currentCard;
+                            break;
+                    case "9": discard.push(rack[8]);
+                            rack[8] = currentCard;
+                            break;
+                    case "10": discard.push(rack[9]);
+                            rack[9] = currentCard;
+                            break;
+                    default: System.out.println("Input invalid. Try again.");
+                            cont = true;
+                }
             }
-            System.out.println(player + "\nPress enter to continue.");
-            try{
-            System.in.read();
-            }catch(IOException e){
-                System.out.print(e);
+            if(!cameFromDiscard){
+                if(!cont){
+                    System.out.println(player + "\nPress enter to continue.");
+                    try{
+                    System.in.read();
+                    }catch(IOException e){
+                        System.out.print(e);
+                    }
+                }
             }
         }else {//Draw pile empty. 
-            int temp = discard.pop();
-            while(!discard.isEmpty()) {//Flip over the discard pile
-                deck.push(discard.pop());
+            while(!discard.isEmpty()){
+                drawPile.push(discard.pop());
             }
-            discard.push(temp); //Keep the top card of the discard pile
-            this.drawCardFromDeck(deck, discard, player);
+            
+            discard.push(drawPile.pop()); //Flip over the top card of the draw pile for the top card for the discard pile
+            this.drawCardFromDeck(drawPile, discard, player, false);//
         }
     }
     
-    public void drawCardFromDiscard(Stack<Integer> discard, Player player){//Get the top card from the discard pile
+    public void drawCardFromDiscard(Stack<Integer> discard, Player player, Stack<Integer> drawPile){//Get the top card from the discard pile
         if(!discard.isEmpty()){
-            currentCard = discard.pop();
-            System.out.println("Here is your picked up card from the discard pile: " + currentCard);
-            System.out.println("Enter the slot on the rack that you want to exchange or 0 to discard it.");
-            //System.out.print(player);//Display the rack
-            int temp = scanner.nextInt();
+            boolean cont = true;
+        
+            currentCard = discard.pop();//Get the top card from the draw pile to show the player
+            
+            while(cont){
+                cont = false;
+                System.out.println("Here is your card from the discard pile: " + currentCard);
+                System.out.println("Enter the slot on the rack that you want to exchange or 0 to draw a new card it.");
+                //System.out.print(player);//Display the rack
+                String temp = scanner.next();
 
-            switch(temp){//Put the card into the proper slot int the rack
-                case 0: discard.push(currentCard);
-                        break;
-                case 1: discard.push(rack[0]);
-                        rack[0] = currentCard;
-                        break;
-                case 2: discard.push(rack[1]);
-                        rack[1] = currentCard;
-                        break;
-                case 3: discard.push(rack[2]);
-                        rack[2] = currentCard;
-                        break;
-                case 4: discard.push(rack[3]);
-                        rack[3] = currentCard;
-                        break;
-                case 5: discard.push(rack[4]);
-                        rack[4] = currentCard;
-                        break;
-                case 6: discard.push(rack[5]);
-                        rack[5] = currentCard;
-                        break;
-                case 7: discard.push(rack[6]);
-                        rack[6] = currentCard;
-                        break;
-                case 8: discard.push(rack[7]);
-                        rack[7] = currentCard;
-                        break;
-                case 9: discard.push(rack[8]);
-                        rack[8] = currentCard;
-                        break;
-                case 10:discard.push(rack[9]);
-                        rack[9] = currentCard;
-                        break;
-                default: System.out.print("Input invalid");
-                        drawCardFromDiscard(discard, player);
-            }
-            System.out.println(player + "\nPress enter to continue.");
-            try{
-            System.in.read();
-            }catch(IOException e){
-                System.out.print(e);
+                switch(temp){//Put the card into the proper slot int the rack
+                    case "0": discard.push(currentCard);//Put the card back on the discard pile if user wants to pick up a new card
+                            drawCardFromDeck(drawPile, discard, player, true);
+                            break;
+                    case "1": discard.push(rack[0]);
+                            rack[0] = currentCard;
+                            break;
+                    case "2": discard.push(rack[1]);
+                            rack[1] = currentCard;
+                            break;
+                    case "3": discard.push(rack[2]);
+                            rack[2] = currentCard;
+                            break;
+                    case "4": discard.push(rack[3]);
+                            rack[3] = currentCard;
+                            break;
+                    case "5": discard.push(rack[4]);
+                            rack[4] = currentCard;
+                            break;
+                    case "6": discard.push(rack[5]);
+                            rack[5] = currentCard;
+                            break;
+                    case "7": discard.push(rack[6]);
+                            rack[6] = currentCard;
+                            break;
+                    case "8": discard.push(rack[7]);
+                            rack[7] = currentCard;
+                            break;
+                    case "9": discard.push(rack[8]);
+                            rack[8] = currentCard;
+                            break;
+                    case "10":discard.push(rack[9]);
+                            rack[9] = currentCard;
+                            break;
+                    default: System.out.println("Input invalid. Try again.");
+                            cont = true;
+                }
+                if(!cont){
+                    System.out.println(player + "\nPress enter to continue.");
+                    try{
+                    System.in.read();
+                    }catch(IOException e){
+                        System.out.print(e);
+                    }
+                }
             }
         }else {
             System.out.println("An error has occured the program will now exit.");
@@ -171,6 +199,13 @@ public class Player {
         }
     }
 
+    public void createRack(Stack<Integer> drawPile) {
+        //Create the rack for the player
+        for(int i = 0; i < 10; i++){
+            rack[i] = (int) drawPile.pop();
+        }            
+    }
+    
     public boolean isWinner(Player player) {//See if the player has won
         if(rack[0] < rack[1]) {
             if(rack[1] < rack[2]) {
@@ -191,7 +226,77 @@ public class Player {
                 }
             }
         }
-        return player.isWinner;//Pass the flag to seee if the player has won
+        return player.isWinner;//Pass the flag to see if the player has won
+    }
+    
+    public boolean scoreWinner(){
+        if(score >= 500){
+            isScoreWinner = true;
+        }
+        return isScoreWinner;
+    }
+    
+    public int calculateScore(){//calculate score for the round
+        if(isWinner){
+            score += 75;
+            
+             //Check for a run
+            int longestRun = 0;
+            int[] longestRunArray = new int[rack.length];//The runs length
+            for(int j = 0;j < rack.length;j++){
+                longestRunArray[j]++;
+                for(int i = j;i < rack.length - 1; i++){
+                    if(rack[i] + 1 == rack[i + 1]){
+                        longestRunArray[j]++;
+                    }else break;
+                }
+            }
+
+            //Sort through the diffrent runs to find the longest
+            for(int i = 0;i < longestRunArray.length;i++){
+                if(longestRun < longestRunArray[i]) {
+                    longestRun = longestRunArray[i];
+                }
+            }
+
+            switch(longestRun){//Give the corect ammount of points
+                case 3: score += 50;
+                        break;
+                case 4: score += 100;
+                        break;
+                case 5: score += 200;
+                        break;
+                case 6:;
+                case 7:;
+                case 8:;
+                case 9:;
+                case 10:score += 400;
+                        break;
+                default:
+            }
+        }else{
+            score += 5;
+            for(int i = 0; i <= 8; i++){
+                if(rack[i] < rack[i + 1]){
+                    score += 5;
+                }else break;
+            }
+        }
+        
+       
+        return score;
+    }
+
+    public boolean isIsWinner() {
+        return isWinner;
+    }
+
+    public void setIsWinner(boolean isWinner) {
+        this.isWinner = isWinner;
+    }
+    
+    public int getScore(){
+        return score;
     }
     
     public String getPlayer() {
@@ -206,6 +311,11 @@ public class Player {
         this.rack = rack;
     }
 
+    public String toString(String endGame) {//Display the rack in an easier to read format for the end of a game
+        return player + "'s rack: " + "\n10: " + rack[9] + "\n9 : " + rack[8] + "\n8 : " + rack[7] + "\n7 : " + rack[6] + "\n6 : " + rack[5] + "\n5 : " 
+                + rack[4] + "\n4 : " + rack[3] + "\n3 : " + rack[2] + "\n2 : " + rack[1] + "\n1 : " + rack[0];
+    }
+    
     @Override
     public String toString() {//Display the rack in an easier to read format
         return "Here is your rack: " + "\n10: " + rack[9] + "\n9 : " + rack[8] + "\n8 : " + rack[7] + "\n7 : " + rack[6] + "\n6 : " + rack[5] + "\n5 : " 
