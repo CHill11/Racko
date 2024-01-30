@@ -4,12 +4,11 @@
  */
 package racko.racko;
 
-import java.util.Arrays;
 import java.util.Stack;
 
 /**
  *
- * @author paper
+ * @author Chris Hill
  */
 public class Cpu_Player extends Player{ 
     

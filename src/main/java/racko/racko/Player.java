@@ -14,12 +14,11 @@ import java.util.Stack;
  */
 public class Player {
     String player = "CPU";
-    int numOfPlayers = 2;
     int[] rack = new int[10];
     int currentCard;
     int score = 0;//The players score
     boolean isScoreWinner = false;//Won the over all game because they scored 500 points
-    boolean isWinner = false; 
+    boolean isWinner = false;//Won the round and got a racko
     Scanner scanner = new Scanner(System.in);
     
     public Player(int cpuNum) {
