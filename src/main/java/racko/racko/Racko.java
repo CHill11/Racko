@@ -38,9 +38,12 @@ public class Racko {
             
             //Get the number of players
             do{//Continue until a valid number of players is entered
-                System.out.println("Enter the number of players (2-4)");//Ask for the number of players
+                System.out.println("Enter the number of players (1-4)");//Ask for the number of players
                 String playersInput = scanner.next().toLowerCase();
                 switch(playersInput){
+                    case "1": numberOfPlayers = 1;
+                        cont = false;
+                        break;
                     case "2": numberOfPlayers = 2;
                         cont = false;
                         break;
@@ -59,24 +62,42 @@ public class Racko {
             
             //Get the number of computer players
             do{//Continue until a valid entry is entered
-            if(numberOfPlayers < 4 && numberOfPlayers != 0){//Check to see if cpu players are wanted
-                System.out.println("Do you want computer players? (y/n)");
-                String wantCPUinput = scanner.next().toLowerCase();
-                switch(wantCPUinput){
-                    case "y":
-                    case "yes": wantCPU = true;
-                                cont = false;
-                                break;
-                    case "n":
-                    case "no":  wantCPU = false;
-                                cont = false;
-                                break;
-                    default:    System.out.println("Invalid entry. Try again.");
+                if(numberOfPlayers == 1){
+                    break;
                 }
-            }
+                if(numberOfPlayers < 4 && numberOfPlayers != 0){//Check to see if cpu players are wanted
+                    System.out.println("Do you want computer players? (y/n)");
+                    String wantCPUinput = scanner.next().toLowerCase();
+                    switch(wantCPUinput){
+                        case "y":
+                        case "yes": wantCPU = true;
+                                    cont = false;
+                                    break;
+                        case "n":
+                        case "no":  wantCPU = false;
+                                    cont = false;
+                                    break;
+                        default:    System.out.println("Invalid entry. Try again.");
+                    }
+                }
             }while(cont);
             
             switch(numberOfPlayers){
+                case 1: System.out.println("Enter the name of the first player");
+                        player1 = new Player(scanner.next());
+                        player2 = new Cpu_Player(2);
+                        player3 = new Cpu_Player(3);
+                        player4 = new Cpu_Player(4);
+                        players = new Player[4];//Add the players to an array for easy terversial including CPU
+                        players[0] = player1;
+                        players[1] = player2;
+                        players[2] = player3;
+                        players[3] = player4;
+
+                        deck = Create_deck.deckCreate(4);//Create the deck for the proper number of players
+
+                        hasMadePlayers = true;
+                        break;
                 case 2: System.out.println("Enter the name of the first player");
                         player1 = new Player(scanner.next());
                         System.out.println("Enter the name of the second player");

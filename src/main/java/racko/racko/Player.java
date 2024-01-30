@@ -30,8 +30,8 @@ public class Player {
     }
     
     public Player(){
-        
     }
+    
     public boolean takeTurn(Stack discard, Stack drawPile,Player player){
         boolean turnFinished = false;
         while(!turnFinished){
@@ -307,17 +307,7 @@ public class Player {
 
     public void setRack(int[] rack) {
         this.rack = rack;
-    }
-
-    public int getNumOfPlayers() {
-        return numOfPlayers;
-    }
-
-    public void setNumOfPlayers(int[] numOfPlayers) {
-        this.numOfPlayers = numOfPlayers.length;
-    }
-
-    
+    }  
     
     public String toString(String endGame) {//Display the rack in an easier to read format for the end of a game
         return player + "'s rack: " + "\n10: " + rack[9] + "\n9 : " + rack[8] + "\n8 : " + rack[7] + "\n7 : " + rack[6] + "\n6 : " + rack[5] + "\n5 : " 
