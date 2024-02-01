@@ -22,7 +22,7 @@ public class Racko {
         Player player3;
         Player player4;
         Player players[];
-        Stack winningPlayers = new Stack();
+        int[] playersScoresForSort;
         boolean winner = false;//Continue game if a winner is not detected
         boolean isSetup = true;//Assume that the drawpile and discard was created correctly
         
@@ -215,64 +215,62 @@ public class Racko {
                                 System.out.print(e);
                             }
                             
-                            System.out.println("Here are all the players racks.");//Display the racks of all the player
-                            for(int i = 0; i < players.length; i++){
-                                System.out.println(players[i].toString(""));
+                            System.out.println("Here are all the players racks.");
+
+                            //Display the racks of all the player
+                            for (Player p : players) {
+                                System.out.println(p.toString(""));
                             }
+                            
                             System.out.print("Press enter to continue...");
+                            
                             try{
                                 System.in.read();//Pause so players can see
                             }catch(IOException e){
                                 System.out.print(e);
                             }
                             
-                            System.out.println("The scores for the players are: ");//Display the scores of the players
+                            System.out.println("The scores for the players are: ");
+
+                            //Display the scores of the players
                             for(int i = 0; i < players.length;i++){
                                 players[i].calculateScore();//Add up the scores of all the players
                                 players[i].setIsWinner(false);//Reset the players winner status
                                 System.out.println(players[i].getPlayer() + " " + players[i].getScore());//Display the player name and score
-                                players[i].scoreWinner();//Check to see it the player is over 500 points
-                                
-                                if(players[i].getScoreWinner()){//Put the players over 500 in a stack
-                                    winningPlayers.push(players[i]);
-                                }
-                                
-                                if(i + 1 == players.length){//If on the last loop 
-                                    if(winningPlayers.size() > 1){//Make sure more then one player has won
-                                        Player[] tempPlayers = new Player[winningPlayers.size()];//Add the winning players to an array for easy iterations
-                                        
-                                        for(int j = 0;j < tempPlayers.length;j++){//Add the playersto the array
-                                            tempPlayers[j] = (Player)winningPlayers.pop();
-                                        }
-                                        
-                                        int[] tempScores = new int[tempPlayers.length];
-                                        
-                                        for(int k = 0;k < tempScores.length;k++){
-                                            tempScores[k] = tempPlayers[k].getScore();//Add the players score to an array for sorting
-                                        }
-                                        
-                                        for(int j = 0;j < tempPlayers.length;j++){//Sort the array to find the winner
-                                            for(int p = 0; p < tempPlayers.length - 1;p++){
-                                                if(tempScores[p] < tempScores[p + 1]){
-                                                    int temp = tempScores[p];
-                                                    tempScores[p] = tempScores[p + 1];
-                                                    tempScores[p + 1] = temp;
-                                                }
-                                                System.out.println(Arrays.toString(tempScores));
+                            }
+                            
+                            for(int i = 0; i < players.length; i++){
+                                //Check to see it the player is over 500 points
+                                if(players[i].scoreWinner()){//If a player has gone over 500 points
+                                    playersScoresForSort = new int[players.length];//Create the appropriate sized array for the number of players
+                                    for(int j = 0; j < playersScoresForSort.length;j++){//Add all the players scores into the array
+                                        playersScoresForSort[j] = players[j].getScore();
+                                    }
+                                    
+                                    //Sort the array of score to find the largest
+                                    for(int k = 0;k < playersScoresForSort.length;k++){
+                                        for(int j = 0; j < playersScoresForSort.length - 1;j++){
+                                            if(playersScoresForSort[j] < playersScoresForSort[j + 1]){
+                                                int temp = playersScoresForSort[j];
+                                                playersScoresForSort[j] = playersScoresForSort[j + 1];
+                                                playersScoresForSort[j + 1] = temp;
                                             }
                                         }
-                                        for(int j = 0;j < tempScores.length;j++){//Search for a matching score in a player
-                                            if(tempScores[0] == tempPlayers[j].getScore()){
-                                                System.out.println(tempPlayers[j].getPlayer() + " has reached the 500 point goal and has won with a score of " + tempPlayers[j].getScore());
-                                                winner = true;
-                                                isSetup = false;
+                                    }
+                                    
+                                    //Get the player that matches the largest sorted score
+                                    for(int j = 0;j < playersScoresForSort.length; j++){
+                                        if(players[j].getScore() == playersScoresForSort[0]){
+                                            System.out.println(players[j].getPlayer() + " has won!!! With a score of " + players[j].getScore());
+                                            isSetup = false;
+                                            winner = true;
+                                            System.out.print("Press enter to exit.");
+                                            try{
+                                                System.in.read();
+                                            }catch(IOException e){
+                                                System.out.print(e);
                                             }
                                         }
-                                    }else{//If only one player has won
-                                        Player tempWinner = (Player)winningPlayers.pop();
-                                        System.out.println(tempWinner.getPlayer() + " has reached the 500 point goal and has won!!!");
-                                        winner = true;
-                                        isSetup = false;
                                     }
                                 }
                             }
