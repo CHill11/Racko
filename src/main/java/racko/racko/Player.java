@@ -43,15 +43,16 @@ public class Player {
             System.out.println("If you want the discard pile card press y or press n to pick up a new card from the draw pile. Type score for your score.");// \nCards in the draw pile: " + drawPile.size());
             String pickup = scanner.next().toLowerCase();
             switch(pickup){
-                case "y":
+                case "y" -> {
                     player.drawCardFromDiscard(discard, player, drawPile);//If player decided to pick up from the discard pile 
                     turnFinished = true;
-                    break;
-                case "n":
+                }
+                case "n" -> {
                     player.drawCardFromDeck(drawPile, discard, player, false);//If player decided to pick up from the draw pile
                     turnFinished = true;
-                    break;
-                case "score": System.out.println("Here is your score " + player.getPlayer() + ":" + player.getScore());//Player want to know their score
+                }
+                case "score" -> {
+                    System.out.println("Here is your score " + player.getPlayer() + ":" + player.getScore());//Player want to know their score
                     System.out.print("Press enter to continue...");
                     try{
                         System.in.read();
@@ -59,8 +60,8 @@ public class Player {
                         System.out.print(e);
                     }
                     return player.takeTurn(discard, drawPile, player);
-                default:
-                    System.out.println("You enterd an invalid entery.");//If player enterd a bad input
+                }
+                default -> System.out.println("You enterd an invalid entery.");//If player enterd a bad input
             }
         }
         return player.isWinner(player);//See if the player has won
@@ -79,42 +80,54 @@ public class Player {
                 String temp = scanner.next(); 
             
                 switch(temp){//Put the card into the proper slot int the rack
-                    case "0": discard.push(currentCard);
-                            break;
-                    case "1": discard.push(rack[0]);
-                            rack[0] = currentCard;
-                            break;
-                    case "2": discard.push(rack[1]);
-                            rack[1] = currentCard;
-                            break;
-                    case "3": discard.push(rack[2]);
-                            rack[2] = currentCard;
-                            break;
-                    case "4": discard.push(rack[3]);
-                            rack[3] = currentCard;
-                            break;
-                    case "5": discard.push(rack[4]);
-                            rack[4] = currentCard;
-                            break;
-                    case "6": discard.push(rack[5]);
-                            rack[5] = currentCard;
-                            break;
-                    case "7": discard.push(rack[6]);
-                            rack[6] = currentCard;
-                            break;
-                    case "8": discard.push(rack[7]);
-                            rack[7] = currentCard;
-                            break;
-                    case "9": discard.push(rack[8]);
-                            rack[8] = currentCard;
-                            break;
-                    case "10": discard.push(rack[9]);
-                            rack[9] = currentCard;
-                            break;
-                    default: System.out.println("Input invalid. Try again.");
-                            cont = true;
+                    case "0" -> discard.push(currentCard);
+                    case "1" -> {
+                        discard.push(rack[0]);
+                        rack[0] = currentCard;
+                    }
+                    case "2" -> {
+                        discard.push(rack[1]);
+                        rack[1] = currentCard;
+                    }
+                    case "3" -> {
+                        discard.push(rack[2]);
+                        rack[2] = currentCard;
+                    }
+                    case "4" -> {
+                        discard.push(rack[3]);
+                        rack[3] = currentCard;
+                    }
+                    case "5" -> {
+                        discard.push(rack[4]);
+                        rack[4] = currentCard;
+                    }
+                    case "6" -> {
+                        discard.push(rack[5]);
+                        rack[5] = currentCard;
+                    }
+                    case "7" -> {
+                        discard.push(rack[6]);
+                        rack[6] = currentCard;
+                    }
+                    case "8" -> {
+                        discard.push(rack[7]);
+                        rack[7] = currentCard;
+                    }
+                    case "9" -> {
+                        discard.push(rack[8]);
+                        rack[8] = currentCard;
+                    }
+                    case "10" -> {
+                        discard.push(rack[9]);
+                        rack[9] = currentCard;
+                    }
+                    default -> {
+                        System.out.println("Input invalid. Try again.");
+                        cont = true;
+                    }
                 }
-            }
+                //Put the card into the proper slot int the rack
+                            }
             if(!cameFromDiscard){
                 if(!cont){
                     System.out.println(player + "\nPress enter to continue.");
@@ -147,42 +160,56 @@ public class Player {
                 String temp = scanner.next();
 
                 switch(temp){//Put the card into the proper slot int the rack
-                    case "0": discard.push(currentCard);//Put the card back on the discard pile if user wants to pick up a new card
-                            drawCardFromDeck(drawPile, discard, player, true);
-                            break;
-                    case "1": discard.push(rack[0]);
-                            rack[0] = currentCard;
-                            break;
-                    case "2": discard.push(rack[1]);
-                            rack[1] = currentCard;
-                            break;
-                    case "3": discard.push(rack[2]);
-                            rack[2] = currentCard;
-                            break;
-                    case "4": discard.push(rack[3]);
-                            rack[3] = currentCard;
-                            break;
-                    case "5": discard.push(rack[4]);
-                            rack[4] = currentCard;
-                            break;
-                    case "6": discard.push(rack[5]);
-                            rack[5] = currentCard;
-                            break;
-                    case "7": discard.push(rack[6]);
-                            rack[6] = currentCard;
-                            break;
-                    case "8": discard.push(rack[7]);
-                            rack[7] = currentCard;
-                            break;
-                    case "9": discard.push(rack[8]);
-                            rack[8] = currentCard;
-                            break;
-                    case "10":discard.push(rack[9]);
-                            rack[9] = currentCard;
-                            break;
-                    default: System.out.println("Input invalid. Try again.");
-                            cont = true;
+                    case "0" -> {
+                        discard.push(currentCard);//Put the card back on the discard pile if user wants to pick up a new card
+                        drawCardFromDeck(drawPile, discard, player, true);
+                    }
+                    case "1" -> {
+                        discard.push(rack[0]);
+                        rack[0] = currentCard;
+                    }
+                    case "2" -> {
+                        discard.push(rack[1]);
+                        rack[1] = currentCard;
+                    }
+                    case "3" -> {
+                        discard.push(rack[2]);
+                        rack[2] = currentCard;
+                    }
+                    case "4" -> {
+                        discard.push(rack[3]);
+                        rack[3] = currentCard;
+                    }
+                    case "5" -> {
+                        discard.push(rack[4]);
+                        rack[4] = currentCard;
+                    }
+                    case "6" -> {
+                        discard.push(rack[5]);
+                        rack[5] = currentCard;
+                    }
+                    case "7" -> {
+                        discard.push(rack[6]);
+                        rack[6] = currentCard;
+                    }
+                    case "8" -> {
+                        discard.push(rack[7]);
+                        rack[7] = currentCard;
+                    }
+                    case "9" -> {
+                        discard.push(rack[8]);
+                        rack[8] = currentCard;
+                    }
+                    case "10" -> {
+                        discard.push(rack[9]);
+                        rack[9] = currentCard;
+                    }
+                    default -> {
+                        System.out.println("Input invalid. Try again.");
+                        cont = true;
+                    }
                 }
+                //Put the card into the proper slot int the rack
                 if(!cont){
                     System.out.println(player + "\nPress enter to continue.");
                     try{

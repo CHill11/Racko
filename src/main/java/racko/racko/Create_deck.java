@@ -14,32 +14,39 @@ public class Create_deck {
     static public int[] deckCreate(int numOfPlayers){
         int[] deck;
         switch(numOfPlayers){
-            case 2: deck = new int[40];//Create the deck
-                    for(int i = 1; i <= 40; i++){//Add the numbers to the deck
-                        deck[i - 1] = i;
-                    }
-                    deck = swap(deck);
-                    return deck;
+            case 2 -> {
+                deck = new int[40];//Create the deck
+                for(int i = 1; i <= 40; i++){//Add the numbers to the deck
+                    deck[i - 1] = i;
+                }
+                deck = swap(deck);
+                return deck;
+            }
                     
                 
-            case 3: deck = new int[50];//Create the deck
-                    for(int i = 1; i <= 50; i++){//Add the numbers to the deck
-                        deck[i - 1] = i;
-                    }
-                    deck = swap(deck);
-                    return deck;
+            case 3 -> {
+                deck = new int[50];//Create the deck
+                for(int i = 1; i <= 50; i++){//Add the numbers to the deck
+                    deck[i - 1] = i;
+                }
+                deck = swap(deck);
+                return deck;
+            }
                     
               
-            case 4: deck = new int[60];//Create the deck
-                    for(int i = 1; i <= 60; i++){//Add the numbers to the deck
-                        deck[i - 1] = i;
-                    }
-                    deck = swap(deck);
-                    return deck;
+            case 4 -> {
+                deck = new int[60];//Create the deck
+                for(int i = 1; i <= 60; i++){//Add the numbers to the deck
+                    deck[i - 1] = i;
+                }
+                deck = swap(deck);
+                return deck;
+            }
              
-            default:
+            default -> {
                 deck = new int[0];
                 return deck;
+            }
         }        
     }
 

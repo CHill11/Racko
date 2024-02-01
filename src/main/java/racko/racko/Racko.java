@@ -42,19 +42,23 @@ public class Racko {
                 System.out.println("Enter the number of players (1-4)");//Ask for the number of players
                 String playersInput = scanner.next().toLowerCase();
                 switch(playersInput){
-                    case "1": numberOfPlayers = 1;
+                    case "1" -> {
+                        numberOfPlayers = 1;
                         cont = false;
-                        break;
-                    case "2": numberOfPlayers = 2;
+                    }
+                    case "2" -> {
+                        numberOfPlayers = 2;
                         cont = false;
-                        break;
-                    case "3": numberOfPlayers = 3;
+                    }
+                    case "3" -> {
+                        numberOfPlayers = 3;
                         cont = false;
-                        break;
-                    case "4": numberOfPlayers = 4;
+                    }
+                    case "4" -> {
+                        numberOfPlayers = 4;
                         cont = false;
-                        break;
-                    default: System.out.println("Invalid number of players. Try again.");
+                    }
+                    default -> System.out.println("Invalid number of players. Try again.");
                 }
             }while(cont);
             
@@ -70,23 +74,42 @@ public class Racko {
                     System.out.println("Do you want computer players? (y/n)");
                     String wantCPUinput = scanner.next().toLowerCase();
                     switch(wantCPUinput){
-                        case "y":
-                        case "yes": wantCPU = true;
-                                    cont = false;
-                                    break;
-                        case "n":
-                        case "no":  wantCPU = false;
-                                    cont = false;
-                                    break;
-                        default:    System.out.println("Invalid entry. Try again.");
+                        case "y", "yes" -> {
+                            wantCPU = true;
+                            cont = false;
+                        }
+                        case "n", "no" -> {
+                            wantCPU = false;
+                            cont = false;
+                        }
+                        default -> System.out.println("Invalid entry. Try again.");
                     }
                 }
             }while(cont);
             
             switch(numberOfPlayers){
-                case 1: System.out.println("Enter the name of the first player");
-                        player1 = new Player(scanner.next());
-                        player2 = new Cpu_Player(2);
+                case 1 -> {
+                    System.out.println("Enter the name of the first player");
+                    player1 = new Player(scanner.next());
+                    player2 = new Cpu_Player(2);
+                    player3 = new Cpu_Player(3);
+                    player4 = new Cpu_Player(4);
+                    players = new Player[4];//Add the players to an array for easy terversial including CPU
+                    players[0] = player1;
+                    players[1] = player2;
+                    players[2] = player3;
+                    players[3] = player4;
+                    
+                    deck = Create_deck.deckCreate(4);//Create the deck for the proper number of players
+                    
+                    hasMadePlayers = true;
+                }
+                case 2 -> {
+                    System.out.println("Enter the name of the first player");
+                    player1 = new Player(scanner.next());
+                    System.out.println("Enter the name of the second player");
+                    player2 = new Player(scanner.next());
+                    if(wantCPU){
                         player3 = new Cpu_Player(3);
                         player4 = new Cpu_Player(4);
                         players = new Player[4];//Add the players to an array for easy terversial including CPU
@@ -96,79 +119,66 @@ public class Racko {
                         players[3] = player4;
 
                         deck = Create_deck.deckCreate(4);//Create the deck for the proper number of players
+                    }else{
+                        players = new Player[2];//Add the players to an array for easy terversial excluding CPU
+                        players[0] = player1;
+                        players[1] = player2;
+                        
+                        deck = Create_deck.deckCreate(2);//Create the deck for the proper number of players
+                    }
+                    hasMadePlayers = true;
+                }
 
-                        hasMadePlayers = true;
-                        break;
-                case 2: System.out.println("Enter the name of the first player");
-                        player1 = new Player(scanner.next());
-                        System.out.println("Enter the name of the second player");
-                        player2 = new Player(scanner.next());
-                        if(wantCPU){
-                            player3 = new Cpu_Player(3);
-                            player4 = new Cpu_Player(4);
-                            players = new Player[4];//Add the players to an array for easy terversial including CPU
-                            players[0] = player1;
-                            players[1] = player2;
-                            players[2] = player3;
-                            players[3] = player4;
-                            
-                            deck = Create_deck.deckCreate(4);//Create the deck for the proper number of players
-                        }else{
-                            players = new Player[2];//Add the players to an array for easy terversial excluding CPU
-                            players[0] = player1;
-                            players[1] = player2;
-                            
-                            deck = Create_deck.deckCreate(2);//Create the deck for the proper number of players
-                        }
-                        hasMadePlayers = true;
-                        break;
-
-                case 3: System.out.println("Enter the name of the first player");
-                        player1 = new Player(scanner.next());
-                        System.out.println("Enter the name of the second player");
-                        player2 = new Player(scanner.next());
-                        System.out.println("Enter the name of the third player");
-                        player3 = new Player(scanner.next());
-                        if(wantCPU){
-                            player4 = new Cpu_Player(4);
-                            players = new Player[4];//Add the players to an array for easy terversial including CPU
-                            players[0] = player1;
-                            players[1] = player2;
-                            players[2] = player3;
-                            players[3] = player4;
-                            
-                            deck = Create_deck.deckCreate(4);//Create the deck for the proper number of players
-                        }else{
-                            players = new Player[3];//Add the players to an array for easy terversial excluding CPU
-                            players[0] = player1;
-                            players[1] = player2;
-                            players[2] = player3;
-                            
-                            deck = Create_deck.deckCreate(3);//Create the deck for the proper number of players
-                        }
-                        hasMadePlayers = true;
-                        break;
-
-                case 4: System.out.println("Enter the name of the first player");
-                        player1 = new Player(scanner.next());
-                        System.out.println("Enter the name of the second player");
-                        player2 = new Player(scanner.next());
-                        System.out.println("Enter the name of the third player");
-                        player3 = new Player(scanner.next());
-                        System.out.println("Enter the name of the forth player");
-                        player4 = new Player(scanner.next());
-                        players = new Player[4];//Add the players to an array for easy terversial excluding CPU
+                case 3 -> {
+                    System.out.println("Enter the name of the first player");
+                    player1 = new Player(scanner.next());
+                    System.out.println("Enter the name of the second player");
+                    player2 = new Player(scanner.next());
+                    System.out.println("Enter the name of the third player");
+                    player3 = new Player(scanner.next());
+                    if(wantCPU){
+                        player4 = new Cpu_Player(4);
+                        players = new Player[4];//Add the players to an array for easy terversial including CPU
                         players[0] = player1;
                         players[1] = player2;
                         players[2] = player3;
                         players[3] = player4;
                         
                         deck = Create_deck.deckCreate(4);//Create the deck for the proper number of players
-                        hasMadePlayers = true;
-                        break;   
+                    }else{
+                        players = new Player[3];//Add the players to an array for easy terversial excluding CPU
+                        players[0] = player1;
+                        players[1] = player2;
+                        players[2] = player3;
+                        
+                        deck = Create_deck.deckCreate(3);//Create the deck for the proper number of players
+                    }
+                    hasMadePlayers = true;
+                }
 
-                default: System.out.println("You didn't enter a valid number of players");
-                players = new Player[0];
+                case 4 -> {
+                    System.out.println("Enter the name of the first player");
+                    player1 = new Player(scanner.next());
+                    System.out.println("Enter the name of the second player");
+                    player2 = new Player(scanner.next());
+                    System.out.println("Enter the name of the third player");
+                    player3 = new Player(scanner.next());
+                    System.out.println("Enter the name of the forth player");
+                    player4 = new Player(scanner.next());
+                    players = new Player[4];//Add the players to an array for easy terversial excluding CPU
+                    players[0] = player1;
+                    players[1] = player2;
+                    players[2] = player3;
+                    players[3] = player4;
+                    
+                    deck = Create_deck.deckCreate(4);//Create the deck for the proper number of players
+                    hasMadePlayers = true;
+                }
+
+                default -> {
+                    System.out.println("You didn't enter a valid number of players");
+                    players = new Player[0];
+                }
             }
             
             Stack drawPile = Create_deck.makedrawPile(deck);//Create the drawPile stack
