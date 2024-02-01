@@ -4,6 +4,7 @@
  */
 package racko.racko;
 
+import java.io.IOException;
 import java.util.Stack;
 
 /**
@@ -20,15 +21,13 @@ public class Cpu_Player extends Player{
     public boolean takeTurn(Stack discard, Stack drawPile,Player player){
         if(discard.isEmpty()){//Make sure the discard pile is not empty
             if(drawPile.isEmpty()){//Make sure that the draw pile is not empty
-                System.out.println("A CPU player tried to get a card from the drawpile and it was empty and the discard ple is also empty.");
+                System.out.println("A CPU player tried to get a card from the drawpile and it was empty and the discard pile is also empty (Error code 200).");//Error
+                System.exit(200);
             }
             discard.push(drawPile.pop());//Add a card to the discard pile if it is empty
         }
         
-        int card = (int) discard.peek();
-        
-        System.out.println( "Before turn:\n" + player.toString());//temp
-        
+        int card = (int) discard.peek();        
         
         if(shouldPickUpDiscard(card)){//See if the discard card is usefull
             card = (int)discard.pop();//Get the card from the discard pile
@@ -42,23 +41,24 @@ public class Cpu_Player extends Player{
             }
         }
         
-        System.out.println( "\nAfter turn:\n" + player.toString());//temp
+        //System.out.println(player.toString());//Use for debuging cpu players racks
         
-        System.out.println("Cpu player " + player.getPlayer() + " has taken their turn.");
+        System.out.println(player.getPlayer() + " has taken their turn.");
+        //Pause to let the players read
+        try{
+            System.in.read();
+        }catch(IOException e){
+            System.out.print(e);
+        }
         return player.isWinner(player);//See if the cpu has won
     }
     
     private boolean shouldPickUpDiscard(int discard) {
         int j = 1;
         for(int i = 0;i < 10;i++){
-            if(discard >= j && discard <= j + 5){//Test if discard would be a good fit
-                if(rack[i] >= j && rack[i] <= j + 5){//See if the card that is already in the rack should stay
-                    System.out.print("The discard is: " + discard + " and the rack was: " + rack[i]);//Temp
-                    return false;
-                }else {
-                    System.out.print("The discard is: " + discard + " and the rack was: " + rack[i]);//Temp
-                    return true;
-                }
+            if(discard >= j && discard <= j + 5){ //Test if discard would be a good fit
+                return !(rack[i] >= j && rack[i] <= j + 5); //See if the card that is already in the rack should stay
+                //System.out.print("The discard is: " + discard + " and the rack was: " + rack[i]);//Use for debugging
             }
             j += 6;
         }
