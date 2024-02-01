@@ -16,7 +16,7 @@ public class Player {
     String player = "CPU";
     int[] rack = new int[10];
     int currentCard;
-    int score = 470;//The players score
+    int score = 0;//The players score
     boolean isScoreWinner = false;//Won the over all game because they scored 500 points
     boolean isWinner = false;//Won the round and got a racko
     Scanner scanner = new Scanner(System.in);
@@ -306,7 +306,15 @@ public class Player {
 
     public void setRack(int[] rack) {
         this.rack = rack;
-    }  
+    }
+
+    public boolean isScoreWinner() {
+        return isScoreWinner;
+    }
+    
+    public void endGameWinner(Player player){
+        System.out.print(player.getPlayer() + " has won!!! With a score of " + player.getScore());
+    }
     
     public String toString(String endGame) {//Display the rack in an easier to read format for the end of a game
         return player + "'s rack: " + "\n10: " + rack[9] + "\n9 : " + rack[8] + "\n8 : " + rack[7] + "\n7 : " + rack[6] + "\n6 : " + rack[5] + "\n5 : " 

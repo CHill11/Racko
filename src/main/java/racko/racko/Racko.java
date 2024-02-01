@@ -22,7 +22,7 @@ public class Racko {
         Player player3;
         Player player4;
         Player players[];
-        int[] playersScoresForSort;
+        
         boolean winner = false;//Continue game if a winner is not detected
         boolean isSetup = true;//Assume that the drawpile and discard was created correctly
         
@@ -176,13 +176,6 @@ public class Racko {
             for(Player p: players) {//Create the rack for the players
                 p.createRack(drawPile);
             }
-           /* for(Player player: players) { //Create the racks for the players
-                int[] playerRack = player.getRack();
-                for(int i = 0; i < 10; i++){
-                    playerRack[i] = (int) drawPile.pop();
-                }
-                player.setRack(playerRack);
-            }*/
             
             Stack discard = new Stack();//Create the discard stack
             discard.push(drawPile.pop());//Setup the discard with one card
@@ -237,43 +230,39 @@ public class Racko {
                                 players[i].calculateScore();//Add up the scores of all the players
                                 players[i].setIsWinner(false);//Reset the players winner status
                                 System.out.println(players[i].getPlayer() + " " + players[i].getScore());//Display the player name and score
+                                players[i].scoreWinner();//Check to see if anybody else has gone over 500
                             }
-                            
-                            for(int i = 0; i < players.length; i++){
-                                //Check to see it the player is over 500 points
-                                if(players[i].scoreWinner()){//If a player has gone over 500 points
-                                    playersScoresForSort = new int[players.length];//Create the appropriate sized array for the number of players
-                                    for(int j = 0; j < playersScoresForSort.length;j++){//Add all the players scores into the array
-                                        playersScoresForSort[j] = players[j].getScore();
-                                    }
-                                    
-                                    //Sort the array of score to find the largest
-                                    for(int k = 0;k < playersScoresForSort.length;k++){
-                                        for(int j = 0; j < playersScoresForSort.length - 1;j++){
-                                            if(playersScoresForSort[j] < playersScoresForSort[j + 1]){
-                                                int temp = playersScoresForSort[j];
-                                                playersScoresForSort[j] = playersScoresForSort[j + 1];
-                                                playersScoresForSort[j + 1] = temp;
-                                            }
-                                        }
-                                    }
-                                    
-                                    //Get the player that matches the largest sorted score
-                                    for(int j = 0;j < playersScoresForSort.length; j++){
-                                        if(players[j].getScore() == playersScoresForSort[0]){
-                                            System.out.println(players[j].getPlayer() + " has won!!! With a score of " + players[j].getScore());
-                                            isSetup = false;
-                                            winner = true;
-                                            System.out.print("Press enter to exit.");
-                                            try{
-                                                System.in.read();
-                                            }catch(IOException e){
-                                                System.out.print(e);
+                            if(player.isScoreWinner()){//If player has over 500 points
+                                Player[] winnerPlayers = Racko.gameWinner(players,winner);//Get the winning players
+                                System.out.print(winnerPlayers[0].getPlayer() + " ");
+                                if(winnerPlayers[1] != null){//If there more than one winning player
+                                    if(winnerPlayers[0].getScore() == winnerPlayers[1].getScore()){
+                                        System.out.print("We have a tie!!! ");
+                                        System.out.print("," + winnerPlayers[1].getPlayer() + " ");
+                                        if(winnerPlayers[2] != null){
+                                            System.out.print("," + winnerPlayers[2].getPlayer() + " ");
+                                            if(winnerPlayers[3] != null){
+                                                System.out.print("," + winnerPlayers[3].getPlayer() + " ");
                                             }
                                         }
                                     }
                                 }
+                                System.out.println("has won!!! With a score of " + winnerPlayers[0].getScore());
+                                System.out.println("Press enter to exit.");
+                                winner = true;
+                                isSetup = false;
+                                try{
+                                    System.in.read();
+                                }catch(IOException e){
+                                    System.out.print(e);
+                                }
+                                break;
                             }
+                            
+                            
+                            
+                            
+                            
                             if(isSetup && !winner){//Check to see if a winner has been found and if it hasn't continue
                                 System.out.print("Press enter to continue...");
                                 try{
@@ -303,4 +292,56 @@ public class Racko {
             }
         }while(isSetup);
     }
-}
+
+    
+    
+    
+    
+    
+    
+    
+    static Player[] gameWinner(Player[] players,boolean winner){//Return the player with the highest score or multiple if its a tie.
+        for(int i = 0; i < players.length; i++){
+            
+                int[] playersScoresForSort = new int[players.length];//Create the appropriate sized array for the number of players
+                
+                for(int j = 0; j < playersScoresForSort.length;j++){//Add all the players scores into the array
+                    playersScoresForSort[j] = players[j].getScore();
+                }
+
+                //Sort the array of score to find the largest
+                for(int k = 0;k < playersScoresForSort.length;k++){
+                    for(int j = 0; j < playersScoresForSort.length - 1;j++){
+                        if(playersScoresForSort[j] < playersScoresForSort[j + 1]){
+                            int temp = playersScoresForSort[j];
+                            playersScoresForSort[j] = playersScoresForSort[j + 1];
+                            playersScoresForSort[j + 1] = temp;
+                        }
+                    }
+                }
+                
+                boolean tie = false;
+                
+                if(playersScoresForSort[0] == playersScoresForSort[1]){
+                    tie = true;
+                }
+                Player[] winners = {null,null,null,null};//Create a new array for storing the players that have more than 500 points
+                if(tie){
+                    for(int k = 0; k < players.length;k++){
+                        if (players[k].getScore() == playersScoresForSort[0]){
+                            winners[k] = players[k];
+                        }
+                    }
+                    return winners;
+                } else {//Get the player that matches the largest sorted score
+                        for(int j = 0;j < players.length;j++){
+                            if(players[j].getScore() == playersScoresForSort[0]){
+                                winners[0] = players[j];
+                                return winners;
+                            }
+                        }
+                    }    
+                }
+        return players;
+        }
+    }
