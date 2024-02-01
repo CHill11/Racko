@@ -18,17 +18,28 @@ public class Cpu_Player extends Player{
         
     @Override
     public boolean takeTurn(Stack discard, Stack drawPile,Player player){
+        if(discard.isEmpty()){//Make sure the discard pile is not empty
+            if(drawPile.isEmpty()){//Make sure that the draw pile is not empty
+                System.out.println("A CPU player tried to get a card from the drawpile and it was empty and the discard ple is also empty.");
+            }
+            discard.push(drawPile.pop());//Add a card to the discard pile if it is empty
+        }
+        
         int card = (int) discard.peek();
         
         System.out.println( "Before turn:\n" + player.toString());//temp
         
         
-        if(shouldPickUpDiscard(card)){
-            card = (int)discard.pop();
-            swap(rack, discard, card);
+        if(shouldPickUpDiscard(card)){//See if the discard card is usefull
+            card = (int)discard.pop();//Get the card from the discard pile
+            swap(rack, discard, card);//Put the discard where it is usefull
         }else{
-            card = (int)drawPile.pop();
-            swap(rack,discard,card);
+            if(drawPile.isEmpty()){//See if the draw pile is empty
+                Create_deck.flipDiscardPile(drawPile, discard);//flip the discard pile back into the draw pile
+            }else{
+                card = (int)drawPile.pop();//Draw a new card from the draw pile 
+                swap(rack,discard,card);//Find out where to put the card in the rack
+            }
         }
         
         System.out.println( "\nAfter turn:\n" + player.toString());//temp
@@ -57,7 +68,7 @@ public class Cpu_Player extends Player{
     private Stack swap(int[] rack, Stack discard,int card){
         int j = 1;
         for(int i = 0;i < 10;i++){
-            if(card >= j && card <= j + 5){//Test if discard would be a good fit
+            if(card >= j && card <= j + 5){//Test if card would be a good fit
                 discard.push(rack[i]);
                 rack[i] = card;
             }

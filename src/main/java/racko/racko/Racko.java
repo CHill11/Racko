@@ -22,6 +22,7 @@ public class Racko {
         Player player3;
         Player player4;
         Player players[];
+        Stack winningPlayers = new Stack();
         boolean winner = false;//Continue game if a winner is not detected
         boolean isSetup = true;//Assume that the drawpile and discard was created correctly
         
@@ -230,35 +231,74 @@ public class Racko {
                                 players[i].calculateScore();//Add up the scores of all the players
                                 players[i].setIsWinner(false);//Reset the players winner status
                                 System.out.println(players[i].getPlayer() + " " + players[i].getScore());//Display the player name and score
-                                if(players[i].scoreWinner()){//Check the score of the players to see if anyone has won
-                                    System.out.println(players[i].getPlayer() + " has reached the 500 point goal and has won!!!");
-                                    try{
-                                        System.in.read();
-                                    }catch(IOException e){
-                                        System.out.print(e);
+                                players[i].scoreWinner();//Check to see it the player is over 500 points
+                                
+                                if(players[i].getScoreWinner()){//Put the players over 500 in a stack
+                                    winningPlayers.push(players[i]);
+                                }
+                                
+                                if(i + 1 == players.length){//If on the last loop 
+                                    if(winningPlayers.size() > 1){//Make sure more then one player has won
+                                        Player[] tempPlayers = new Player[winningPlayers.size()];//Add the winning players to an array for easy iterations
+                                        
+                                        for(int j = 0;j < tempPlayers.length;j++){//Add the playersto the array
+                                            tempPlayers[j] = (Player)winningPlayers.pop();
+                                        }
+                                        
+                                        int[] tempScores = new int[tempPlayers.length];
+                                        
+                                        for(int k = 0;k < tempScores.length;k++){
+                                            tempScores[k] = tempPlayers[k].getScore();//Add the players score to an array for sorting
+                                        }
+                                        
+                                        for(int j = 0;j < tempPlayers.length;j++){//Sort the array to find the winner
+                                            for(int p = 0; p < tempPlayers.length - 1;p++){
+                                                if(tempScores[p] < tempScores[p + 1]){
+                                                    int temp = tempScores[p];
+                                                    tempScores[p] = tempScores[p + 1];
+                                                    tempScores[p + 1] = temp;
+                                                }
+                                                System.out.println(Arrays.toString(tempScores));
+                                            }
+                                        }
+                                        for(int j = 0;j < tempScores.length;j++){//Search for a matching score in a player
+                                            if(tempScores[0] == tempPlayers[j].getScore()){
+                                                System.out.println(tempPlayers[j].getPlayer() + " has reached the 500 point goal and has won with a score of " + tempPlayers[j].getScore());
+                                                winner = true;
+                                                isSetup = false;
+                                            }
+                                        }
+                                    }else{//If only one player has won
+                                        Player tempWinner = (Player)winningPlayers.pop();
+                                        System.out.println(tempWinner.getPlayer() + " has reached the 500 point goal and has won!!!");
+                                        winner = true;
+                                        isSetup = false;
                                     }
-                                    winner = true;
-                                    isSetup = false;
-                                    break;
                                 }
                             }
-                            System.out.print("Press enter to continue...");
-                            try{
-                                System.in.read();
-                            }catch(IOException e){
-                                System.out.print(e);
+                            if(isSetup && !winner){//Check to see if a winner has been found and if it hasn't continue
+                                System.out.print("Press enter to continue...");
+                                try{
+                                    System.in.read();
+                                }catch(IOException e){
+                                    System.out.print(e);
+                                }
                             }
+                                //Create a new deck and fill the racks
+
+                                deck = Create_deck.deckCreate(players.length);//Create a new deck for the next game
+
+                                drawPile.clear();//Clear the draw pile for the next game
+                                discard.clear();//Clear the discard pile for the next game
+                                drawPile = Create_deck.makedrawPile(deck);//Create a new draw pile
+
+                                for(Player p: players) {//Create the rack for the players
+                                    p.createRack(drawPile);
+                                }
+
+                                discard = Create_deck.makeDiscardPile(drawPile);//Create a new discard pile
+                                break;
                             
-                            //Create a new deck and fill the racks
-                            deck = Create_deck.swap(deck);
-                            drawPile = Create_deck.makedrawPile(deck);//Create a new draw pile
-                            
-                            for(Player p: players) {//Create the rack for the players
-                                p.createRack(drawPile);
-                            }
-                            
-                            Create_deck.makeDiscardPile(drawPile);//Create a new discard pile
-                            break;
                         }
                     }
                 }

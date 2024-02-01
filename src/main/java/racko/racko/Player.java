@@ -34,10 +34,13 @@ public class Player {
     
     public boolean takeTurn(Stack discard, Stack drawPile,Player player){
         boolean turnFinished = false;
+        if(discard.isEmpty()){//Make sure discard pile is not empty after a draw pile refresh
+            Create_deck.makeDiscardPile(drawPile);
+        }
         while(!turnFinished){
             System.out.println(player);//Display the rack
             System.out.println("Here is the discard pile card " + discard.peek());
-            System.out.println("If you want the discard pile card press y or press n to pick up a new card from the draw pile. Type score for your score. \nCards in the draw pile: " + drawPile.size());
+            System.out.println("If you want the discard pile card press y or press n to pick up a new card from the draw pile. Type score for your score.");// \nCards in the draw pile: " + drawPile.size());
             String pickup = scanner.next().toLowerCase();
             switch(pickup){
                 case "y":
@@ -123,9 +126,7 @@ public class Player {
                 }
             }
         }else {//Draw pile empty. 
-            while(!discard.isEmpty()){
-                drawPile.push(discard.pop());
-            }
+            drawPile = Create_deck.flipDiscardPile(drawPile,discard);
             
             discard.push(drawPile.pop()); //Flip over the top card of the draw pile for the top card for the discard pile
             this.drawCardFromDeck(drawPile, discard, player, false);//
@@ -280,12 +281,14 @@ public class Player {
                 }else break;
             }
         }
-        
-       
         return score;
     }
 
-    public boolean isIsWinner() {
+    public boolean getScoreWinner() {
+        return isScoreWinner;
+    }
+    
+    public boolean getIsWinner() {
         return isWinner;
     }
 

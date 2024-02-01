@@ -44,7 +44,7 @@ public class Create_deck {
     }
 
 
-    static public int[] swap(int[] deck){//Shuffles the deck 500 times
+    static private int[] swap(int[] deck){//Shuffles the deck 500 times
         int temp;
         
         for(int i = 0;i < 500;i++){
@@ -62,7 +62,7 @@ public class Create_deck {
         for(int card: deck){
             drawPile.push(card);
         }
-        System.out.println("Draw pile " + drawPile.toString());
+        //System.out.println("Draw pile " + drawPile.toString());
         return drawPile;
     }
     
@@ -70,5 +70,32 @@ public class Create_deck {
         Stack discard = new Stack();
         discard.push(drawPile.pop());
         return discard;
+    }
+    
+    static public Stack flipDiscardPile(Stack drawPile, Stack discard){
+        
+        if(drawPile.isEmpty()){
+            while(!discard.isEmpty()){//Keep fliping cards over till the discard pile is empty
+                drawPile.push(discard.pop());
+            }
+        }
+        System.out.println("The draw pile has been refreshed.");
+        return drawPile;
+    }
+    
+    static public int[] sort(int[] deck){
+        int[] sortedDeck = deck;
+        
+        for(int i = 0;i < deck.length;i++){
+            for(int j = i + 1;j < deck.length; j++) {
+                if(deck[i] < deck[j]){
+                    int temp = deck[j];
+                    deck[j] = deck[i];
+                    deck[i] = temp;
+                }
+            }
+        }
+        
+        return sortedDeck;
     }
 }
