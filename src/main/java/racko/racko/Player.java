@@ -40,8 +40,8 @@ public class Player {
         while(!turnFinished){
             System.out.println(player);//Display the rack
             System.out.println("Here is the discard pile card " + discard.peek());
-            System.out.println("If you want the discard pile card press y or press n to pick up a new card from the draw pile. Type score for your score.");// \nCards in the draw pile: " + drawPile.size());
-            String pickup = scanner.next().toLowerCase();
+            System.out.println("If you want the discard pile card press y or press n to pick up a new card from the draw pile. Type help for more in.");// \nCards in the draw pile: " + drawPile.size());
+            String pickup = scanner.nextLine().trim().toLowerCase();
             switch(pickup){
                 case "y" -> {
                     player.drawCardFromDiscard(discard, player, drawPile);//If player decided to pick up from the discard pile 
@@ -51,15 +51,8 @@ public class Player {
                     player.drawCardFromDeck(drawPile, discard, player, false);//If player decided to pick up from the draw pile
                     turnFinished = true;
                 }
-                case "score" -> {
-                    System.out.println("Here is your score " + player.getPlayer() + ":" + player.getScore());//Player want to know their score
-                    System.out.print("Press enter to continue...");
-                    try{
-                        System.in.read();
-                    }catch(IOException e){
-                        System.out.print(e);
-                    }
-                    return player.takeTurn(discard, drawPile, player);
+                case "help" -> {
+                        help(player);//Display the options to the player
                 }
                 default -> System.out.println("You enterd an invalid entery.");//If player enterd a bad input
             }
@@ -76,8 +69,8 @@ public class Player {
             while(cont){
                 cont= false;
                 System.out.println("Here is your picked up card: " + currentCard);
-                System.out.println("Enter the slot on the rack that you want to exchange or 0 to discard it.");
-                String temp = scanner.next(); 
+                System.out.println("Enter the slot on the rack that you want to exchange or 0 to discard it. Type help for other options.");
+                String temp = scanner.next().toLowerCase(); 
             
                 switch(temp){//Put the card into the proper slot int the rack
                     case "0" -> discard.push(currentCard);
@@ -121,6 +114,10 @@ public class Player {
                         discard.push(rack[9]);
                         rack[9] = currentCard;
                     }
+                    case "help" -> {
+                        help(player);
+                        cont = true;
+                    }
                     default -> {
                         System.out.println("Input invalid. Try again.");
                         cont = true;
@@ -155,7 +152,7 @@ public class Player {
             while(cont){
                 cont = false;
                 System.out.println("Here is your card from the discard pile: " + currentCard);
-                System.out.println("Enter the slot on the rack that you want to exchange or 0 to draw a new card it.");
+                System.out.println("Enter the slot on the rack that you want to exchange or 0 to draw a new card it. Type help for other options.");
                 //System.out.print(player);//Display the rack
                 String temp = scanner.next();
 
@@ -203,6 +200,10 @@ public class Player {
                     case "10" -> {
                         discard.push(rack[9]);
                         rack[9] = currentCard;
+                    }
+                    case "help" -> {
+                        help(player);
+                        cont = true;
                     }
                     default -> {
                         System.out.println("Input invalid. Try again.");
@@ -309,6 +310,35 @@ public class Player {
             }
         }
         return score;
+    }
+    
+    private void help(Player player){     
+        boolean exit = false;
+        
+        while(!exit){
+            System.out.println("Type \"rack, rules, or score\" for more information or exit to continue the game.");
+            String temp = scanner.next().toLowerCase().trim();
+            
+            switch(temp){
+                case "score" ->  {
+                    player.displayScore(player);
+                }
+                case "rack", "display", "display rack", "displayrack" ->  {
+                    System.out.println(player);
+                }
+                case "rules" ->  {
+                    Racko.rules();
+                }
+                case "exit" ->  {
+                    exit = true;
+                }
+                default -> System.out.println("You enterd an invalid entery.");//If player enterd a bad input
+            }
+        }
+    }
+    
+    private void displayScore(Player player){
+        System.out.println(player.getPlayer() + " score is: " + player.getScore());
     }
     
     public boolean getIsWinner() {

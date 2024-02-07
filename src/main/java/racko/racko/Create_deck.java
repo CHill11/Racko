@@ -54,7 +54,7 @@ public class Create_deck {
     static private int[] swap(int[] deck){//Shuffles the deck 500 times
         int temp;
         
-        for(int i = 0;i < 500;i++){
+        for(int i = 0;i < 5000;i++){
             int seed = (int)(Math.random() * deck.length); //Gets a number between 0 and the max number need for the ammount of players used to select a card in the pile
             int seed1 = (int)(Math.random() * deck.length);//Gets a number between 0 and the max number need for the ammount of players used to select a card in the pile
             temp = deck[seed];//Store the number that is to be switched in the deck

@@ -26,6 +26,8 @@ public class Racko {
         boolean winner = false;//Continue game if a winner is not detected
         boolean isSetup = true;//Assume that the drawpile and discard was created correctly
         
+        
+        System.out.println("Welcome to racko!");
         do{
             
             //Setup the game
@@ -195,7 +197,6 @@ public class Racko {
             }
             
             while(hasMadePlayers && isSetup){//Start of the game loop
-                System.out.print("Welcome to racko!\n");
                 while(!winner){                    
                     for(Player player: players){
                         
@@ -353,5 +354,15 @@ public class Racko {
                     }    
                 }
         return players;
+        }
+    
+    static void rules(){
+        System.out.println("""
+                         The objective of the game is to get all of your cards to be in ascending order.
+                         If you get a run of 3 or more cards and get a racko you will get a bonus.
+                         Run of 3 50 points
+                         Run of 4 100 points
+                         Run of 5 200 points
+                         Run of 6 or more 400 points""");
         }
     }
