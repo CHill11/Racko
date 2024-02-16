@@ -364,5 +364,5 @@ public class Racko {
                          Run of 4 100 points
                          Run of 5 200 points
                          Run of 6 or more 400 points""");
-        }
     }
+}
