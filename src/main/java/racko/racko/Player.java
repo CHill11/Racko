@@ -54,6 +54,7 @@ public class Player {
                 case "help" -> {
                         help(player);//Display the options to the player
                 }
+                case "" -> {}
                 default -> System.out.println("You enterd an invalid entery.");//If player enterd a bad input
             }
         }
@@ -118,6 +119,7 @@ public class Player {
                         help(player);
                         cont = true;
                     }
+                    case "" -> {}
                     default -> {
                         System.out.println("Input invalid. Try again.");
                         cont = true;
@@ -205,6 +207,7 @@ public class Player {
                         help(player);
                         cont = true;
                     }
+                    case "" -> {}
                     default -> {
                         System.out.println("Input invalid. Try again.");
                         cont = true;
@@ -332,6 +335,7 @@ public class Player {
                 case "exit" ->  {
                     exit = true;
                 }
+                case "" -> {}
                 default -> System.out.println("You enterd an invalid entery.");//If player enterd a bad input
             }
         }
