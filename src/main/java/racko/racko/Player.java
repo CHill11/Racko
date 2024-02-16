@@ -16,7 +16,7 @@ public class Player {
     String player = "CPU";
     int[] rack = new int[10];
     int currentCard;
-    int score = 0;//The players score
+    int score = 450;//The players score
     boolean isScoreWinner = false;//Won the over all game because they scored 500 points
     boolean isWinner = false;//Won the round and got a racko
     Scanner scanner = new Scanner(System.in);
@@ -70,7 +70,7 @@ public class Player {
                 cont= false;
                 System.out.println("Here is your picked up card: " + currentCard);
                 System.out.println("Enter the slot on the rack that you want to exchange or 0 to discard it. Type help for other options.");
-                String temp = scanner.next().toLowerCase(); 
+                String temp = scanner.nextLine().toLowerCase(); 
             
                 switch(temp){//Put the card into the proper slot int the rack
                     case "0" -> discard.push(currentCard);
@@ -154,7 +154,7 @@ public class Player {
                 System.out.println("Here is your card from the discard pile: " + currentCard);
                 System.out.println("Enter the slot on the rack that you want to exchange or 0 to draw a new card it. Type help for other options.");
                 //System.out.print(player);//Display the rack
-                String temp = scanner.next();
+                String temp = scanner.nextLine();
 
                 switch(temp){//Put the card into the proper slot int the rack
                     case "0" -> {
@@ -317,7 +317,7 @@ public class Player {
         
         while(!exit){
             System.out.println("Type \"rack, rules, or score\" for more information or exit to continue the game.");
-            String temp = scanner.next().toLowerCase().trim();
+            String temp = scanner.nextLine().toLowerCase().trim();
             
             switch(temp){
                 case "score" ->  {
