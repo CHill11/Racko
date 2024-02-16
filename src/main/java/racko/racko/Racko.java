@@ -42,7 +42,7 @@ public class Racko {
             //Get the number of players
             do{//Continue until a valid number of players is entered
                 System.out.println("Enter the number of players (1-4)");//Ask for the number of players
-                String playersInput = scanner.next().toLowerCase();
+                String playersInput = scanner.nextLine().toLowerCase();
                 switch(playersInput){
                     case "1" -> {
                         numberOfPlayers = 1;
@@ -74,7 +74,7 @@ public class Racko {
                 }
                 if(numberOfPlayers < 4 && numberOfPlayers != 0){//Check to see if cpu players are wanted
                     System.out.println("Do you want computer players? (y/n)");
-                    String wantCPUinput = scanner.next().toLowerCase();
+                    String wantCPUinput = scanner.nextLine().toLowerCase();
                     switch(wantCPUinput){
                         case "y", "yes" -> {
                             wantCPU = true;
@@ -92,7 +92,7 @@ public class Racko {
             switch(numberOfPlayers){
                 case 1 -> {
                     System.out.println("Enter the name of the first player");
-                    player1 = new Player(scanner.next());
+                    player1 = new Player(scanner.nextLine());
                     player2 = new Cpu_Player(2);
                     player3 = new Cpu_Player(3);
                     player4 = new Cpu_Player(4);
@@ -108,9 +108,9 @@ public class Racko {
                 }
                 case 2 -> {
                     System.out.println("Enter the name of the first player");
-                    player1 = new Player(scanner.next());
+                    player1 = new Player(scanner.nextLine());
                     System.out.println("Enter the name of the second player");
-                    player2 = new Player(scanner.next());
+                    player2 = new Player(scanner.nextLine());
                     if(wantCPU){
                         player3 = new Cpu_Player(3);
                         player4 = new Cpu_Player(4);
@@ -133,11 +133,11 @@ public class Racko {
 
                 case 3 -> {
                     System.out.println("Enter the name of the first player");
-                    player1 = new Player(scanner.next());
+                    player1 = new Player(scanner.nextLine());
                     System.out.println("Enter the name of the second player");
-                    player2 = new Player(scanner.next());
+                    player2 = new Player(scanner.nextLine());
                     System.out.println("Enter the name of the third player");
-                    player3 = new Player(scanner.next());
+                    player3 = new Player(scanner.nextLine());
                     if(wantCPU){
                         player4 = new Cpu_Player(4);
                         players = new Player[4];//Add the players to an array for easy terversial including CPU
@@ -160,13 +160,13 @@ public class Racko {
 
                 case 4 -> {
                     System.out.println("Enter the name of the first player");
-                    player1 = new Player(scanner.next());
+                    player1 = new Player(scanner.nextLine());
                     System.out.println("Enter the name of the second player");
-                    player2 = new Player(scanner.next());
+                    player2 = new Player(scanner.nextLine());
                     System.out.println("Enter the name of the third player");
-                    player3 = new Player(scanner.next());
+                    player3 = new Player(scanner.nextLine());
                     System.out.println("Enter the name of the forth player");
-                    player4 = new Player(scanner.next());
+                    player4 = new Player(scanner.nextLine());
                     players = new Player[4];//Add the players to an array for easy terversial excluding CPU
                     players[0] = player1;
                     players[1] = player2;
@@ -193,7 +193,7 @@ public class Racko {
             discard.push(drawPile.pop());//Setup the discard with one card
             if(discard.isEmpty() || drawPile.isEmpty()){//Make sure the stack got populated.
                 isSetup = false;
-                scanner.next();
+                scanner.nextLine();
             }
             
             while(hasMadePlayers && isSetup){//Start of the game loop
