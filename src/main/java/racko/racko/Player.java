@@ -38,25 +38,32 @@ public class Player {
             Create_deck.makeDiscardPile(drawPile);
         }
         
-        System.out.println(player);//Display the rack
-        System.out.println("Here is the discard pile card " + discard.peek());
-        System.out.println("If you want the discard pile card press y or press n to pick up a new card from the draw pile. Type help for more in.");// \nCards in the draw pile: " + drawPile.size());
         
         while(!turnFinished){
+            
+            System.out.println(player);//Display the rack
+            System.out.println("Here is the discard pile card " + discard.peek());//Display the top card in the discard pile
+            System.out.println("If you want the discard pile card press y or press n to pick up a new card from the draw pile. Type help for more in.");// \nCards in the draw pile: " + drawPile.size());
             String pickup = scanner.nextLine().trim().toLowerCase();
+            
             switch(pickup){
-                case "y" -> {
+                case "y" ->  {
                     player.drawCardFromDiscard(discard, player, drawPile);//If player decided to pick up from the discard pile 
                     turnFinished = true;
                 }
-                case "n" -> {
+                case "n" ->  {
                     player.drawCardFromDeck(drawPile, discard, player, false);//If player decided to pick up from the draw pile
                     turnFinished = true;
                 }
-                case "help" -> {
-                        help(player);//Display the options to the player
+                case "help" ->  {
+                    help(player);//Display the options to the player
+                    System.out.println("Here is the discard pile card " + discard.peek());
+                    System.out.println("If you want the discard pile card press y or press n to pick up a new card from the draw pile. Type help for more in.");
+                    return player.takeTurn(discard, drawPile, player);//Added to try and fix the double output
                 }
-                case "" -> {}
+                case "" ->  {
+                    return player.takeTurn(discard, drawPile, player);//Added to try and fix the double output
+                }
                 default -> System.out.println("You enterd an invalid entery.");//If player enterd a bad input
             }
         }
