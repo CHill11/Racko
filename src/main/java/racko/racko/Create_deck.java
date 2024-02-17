@@ -64,8 +64,8 @@ public class Create_deck {
         return deck;
     }
     
-    static public Stack makedrawPile(int[] deck){
-        Stack drawPile = new Stack();
+    static public Stack<Integer> makedrawPile(int[] deck){
+        Stack<Integer> drawPile = new Stack<>();
         for(int card: deck){
             drawPile.push(card);
         }
@@ -73,13 +73,13 @@ public class Create_deck {
         return drawPile;
     }
     
-    static public Stack makeDiscardPile(Stack drawPile){
-        Stack discard = new Stack();
+    static public Stack<Integer> makeDiscardPile(Stack<Integer> drawPile){
+        Stack<Integer> discard = new Stack<>();
         discard.push(drawPile.pop());
         return discard;
     }
     
-    static public Stack flipDiscardPile(Stack drawPile, Stack discard){
+    static public Stack<Integer> flipDiscardPile(Stack<Integer> drawPile, Stack<Integer> discard){
         
         if(drawPile.isEmpty()){
             while(!discard.isEmpty()){//Keep fliping cards over till the discard pile is empty

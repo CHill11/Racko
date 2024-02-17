@@ -18,7 +18,7 @@ public class Cpu_Player extends Player{
     }
         
     @Override
-    public boolean takeTurn(Stack discard, Stack drawPile,Player player){
+    public boolean takeTurn(Stack<Integer> discard, Stack<Integer> drawPile,Player player){
         if(discard.isEmpty()){//Make sure the discard pile is not empty
             if(drawPile.isEmpty()){//Make sure that the draw pile is not empty
                 System.out.println("A CPU player tried to get a card from the drawpile and it was empty and the discard pile is also empty (Error code 200).");//Error
@@ -65,7 +65,7 @@ public class Cpu_Player extends Player{
         return false;
     }
     
-    private Stack swap(int[] rack, Stack discard,int card){
+    private Stack<Integer> swap(int[] rack, Stack<Integer> discard,int card){
         int j = 1;
         for(int i = 0;i < 10;i++){
             if(card >= j && card <= j + 5){//Test if card would be a good fit

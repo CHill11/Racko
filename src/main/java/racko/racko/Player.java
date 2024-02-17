@@ -32,38 +32,29 @@ public class Player {
     public Player(){
     }
     
-    public boolean takeTurn(Stack discard, Stack drawPile,Player player){
+    public boolean takeTurn(Stack<Integer> discard, Stack<Integer> drawPile,Player player){
         boolean turnFinished = false;
         if(discard.isEmpty()){//Make sure discard pile is not empty after a draw pile refresh
             Create_deck.makeDiscardPile(drawPile);
         }
-        
-        
+        System.out.println(player);//Display the rack
+        System.out.println("Here is the discard pile card " + discard.peek());//Display the top card in the discard pile
+        System.out.println("If you want the discard pile card press y or press n to pick up a new card from the draw pile. Type help for more options.");
         while(!turnFinished){
-            
-            System.out.println(player);//Display the rack
-            System.out.println("Here is the discard pile card " + discard.peek());//Display the top card in the discard pile
-            System.out.println("If you want the discard pile card press y or press n to pick up a new card from the draw pile. Type help for more in.");// \nCards in the draw pile: " + drawPile.size());
             String pickup = scanner.nextLine().trim().toLowerCase();
-            
             switch(pickup){
-                case "y" ->  {
+                case "y","yes" -> {
                     player.drawCardFromDiscard(discard, player, drawPile);//If player decided to pick up from the discard pile 
                     turnFinished = true;
                 }
-                case "n" ->  {
+                case "n","no" -> {
                     player.drawCardFromDeck(drawPile, discard, player, false);//If player decided to pick up from the draw pile
                     turnFinished = true;
                 }
-                case "help" ->  {
-                    help(player);//Display the options to the player
-                    System.out.println("Here is the discard pile card " + discard.peek());
-                    System.out.println("If you want the discard pile card press y or press n to pick up a new card from the draw pile. Type help for more in.");
-                    return player.takeTurn(discard, drawPile, player);//Added to try and fix the double output
+                case "help" -> {
+                        help(player);//Display the options to the player
                 }
-                case "" ->  {
-                    return player.takeTurn(discard, drawPile, player);//Added to try and fix the double output
-                }
+                case "" -> {}
                 default -> System.out.println("You enterd an invalid entery.");//If player enterd a bad input
             }
         }
@@ -81,7 +72,6 @@ public class Player {
                 System.out.println("Here is your picked up card: " + currentCard);
                 System.out.println("Enter the slot on the rack that you want to exchange or 0 to discard it. Type help for other options.");
                 String temp = scanner.nextLine().toLowerCase(); 
-            
                 switch(temp){//Put the card into the proper slot int the rack
                     case "0" -> discard.push(currentCard);
                     case "1" -> {
@@ -128,7 +118,9 @@ public class Player {
                         help(player);
                         cont = true;
                     }
-                    case "" -> {}
+                    case "" -> {
+                        cont = true;
+                    }
                     default -> {
                         System.out.println("Input invalid. Try again.");
                         cont = true;
@@ -216,7 +208,9 @@ public class Player {
                         help(player);
                         cont = true;
                     }
-                    case "" -> {}
+                    case "" -> {
+                        cont = true;
+                    }
                     default -> {
                         System.out.println("Input invalid. Try again.");
                         cont = true;

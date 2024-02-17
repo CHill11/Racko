@@ -183,13 +183,13 @@ public class Racko {
                 }
             }
             
-            Stack drawPile = Create_deck.makedrawPile(deck);//Create the drawPile stack
+            Stack<Integer> drawPile = Create_deck.makedrawPile(deck);//Create the drawPile stack
             
             for(Player p: players) {//Create the rack for the players
                 p.createRack(drawPile);
             }
             
-            Stack discard = new Stack();//Create the discard stack
+            Stack<Integer> discard = new Stack<Integer>();//Create the discard stack
             discard.push(drawPile.pop());//Setup the discard with one card
             if(discard.isEmpty() || drawPile.isEmpty()){//Make sure the stack got populated.
                 isSetup = false;
@@ -205,19 +205,11 @@ public class Racko {
                         }
                         
                         System.out.println(player.getPlayer() + " it is your turn! Make sure you are the only person looking at the screen and press enter.");//Delay the start of the turn to make sure nobody see other peoples racks
-                        try{
-                            System.in.read();
-                        }catch(IOException e){
-                            System.out.print(e);
-                        }
+                        scanner.nextLine();
                         if(player.takeTurn(discard, drawPile, player)){//Start of turn and check to see if the player has won the round
                             System.out.println(player.getPlayer() + " Racko!!");
                             System.out.print("Press enter to continue...");
-                            try{
-                                System.in.read();//Pause so players can see
-                            }catch(IOException e){
-                                System.out.print(e);
-                            }
+                            scanner.nextLine();//Pause so the player can see
                             
                             System.out.println("Here are all the players racks.");
 
@@ -225,17 +217,10 @@ public class Racko {
                             for (Player p : players) {
                                 System.out.println(p.toString(""));
                             }
-                            
                             System.out.print("Press enter to continue...");
-                            
-                            try{
-                                System.in.read();//Pause so players can see
-                            }catch(IOException e){
-                                System.out.print(e);
-                            }
+                            scanner.nextLine();//Pause so the player can see
                             
                             System.out.println("The scores for the players are: ");
-
                             //Display the scores of the players
                             for(int i = 0; i < players.length;i++){
                                 players[i].calculateScore();//Add up the scores of all the players
@@ -262,11 +247,7 @@ public class Racko {
                                 System.out.println("Press enter to exit.");
                                 winner = true;
                                 isSetup = false;
-                                try{
-                                    System.in.read();
-                                }catch(IOException e){
-                                    System.out.print(e);
-                                }
+                                scanner.nextLine();//Pause so the player can see
                                 break;
                             }
                             
@@ -276,11 +257,7 @@ public class Racko {
                             
                             if(isSetup && !winner){//Check to see if a winner has been found and if it hasn't continue
                                 System.out.print("Press enter to continue...");
-                                try{
-                                    System.in.read();
-                                }catch(IOException e){
-                                    System.out.print(e);
-                                }
+                                scanner.nextLine();//Pause so the player can see
                             }
                                 //Create a new deck and fill the racks
 
@@ -303,13 +280,6 @@ public class Racko {
             }
         }while(isSetup);
     }
-
-    
-    
-    
-    
-    
-    
     
     static Player[] gameWinner(Player[] players,boolean winner){//Return the player with the highest score or multiple if its a tie.
         for(int i = 0; i < players.length; i++){
@@ -344,13 +314,13 @@ public class Racko {
                         }
                     }
                     return winners;
-                } else {//Get the player that matches the largest sorted score
-                        for(int j = 0;j < players.length;j++){
-                            if(players[j].getScore() == playersScoresForSort[0]){
-                                winners[0] = players[j];
-                                return winners;
-                            }
+                } else { //Get the player that matches the largest sorted score
+                    for (Player player : players) {
+                        if (player.getScore() == playersScoresForSort[0]) {
+                            winners[0] = player;
+                            return winners;
                         }
+                    }
                     }    
                 }
         return players;
