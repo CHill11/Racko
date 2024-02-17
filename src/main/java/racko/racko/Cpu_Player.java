@@ -45,11 +45,7 @@ public class Cpu_Player extends Player{
         
         System.out.println(player.getPlayer() + " has taken their turn.");
         //Pause to let the players read
-        try{
-            System.in.read();
-        }catch(IOException e){
-            System.out.print(e);
-        }
+        scanner.nextLine();
         return player.isWinner(player);//See if the cpu has won
     }
     

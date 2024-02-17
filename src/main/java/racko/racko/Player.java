@@ -132,11 +132,7 @@ public class Player {
             if(!cameFromDiscard){
                 if(!cont){
                     System.out.println(player + "\nPress enter to continue.");
-                    try{
-                    System.in.read();
-                    }catch(IOException e){
-                        System.out.print(e);
-                    }
+                    scanner.nextLine();
                 }
             }
         }else {//Draw pile empty. 
@@ -220,11 +216,7 @@ public class Player {
                 //Put the card into the proper slot int the rack
                 if(!cont){
                     System.out.println(player + "\nPress enter to continue.");
-                    try{
-                    System.in.read();
-                    }catch(IOException e){
-                        System.out.print(e);
-                    }
+                    scanner.nextLine();
                 }
             }
         }else {
