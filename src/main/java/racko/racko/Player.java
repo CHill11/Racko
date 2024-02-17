@@ -37,10 +37,11 @@ public class Player {
         if(discard.isEmpty()){//Make sure discard pile is not empty after a draw pile refresh
             Create_deck.makeDiscardPile(drawPile);
         }
-        System.out.println(player);//Display the rack
-        System.out.println("Here is the discard pile card " + discard.peek());//Display the top card in the discard pile
-        System.out.println("If you want the discard pile card press y or press n to pick up a new card from the draw pile. Type help for more options.");
+        
         while(!turnFinished){
+            System.out.println(player);//Display the rack
+            System.out.println("Here is the discard pile card " + discard.peek());//Display the top card in the discard pile
+            System.out.println("If you want the discard pile card press y or press n to pick up a new card from the draw pile. Type help for more options.");
             String pickup = scanner.nextLine().trim().toLowerCase();
             switch(pickup){
                 case "y","yes" -> {
